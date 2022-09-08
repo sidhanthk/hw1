@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "ulliststr.h"
 
+
 ULListStr::ULListStr()
 {
   head_ = NULL;
@@ -13,6 +14,11 @@ ULListStr::~ULListStr()
 {
   
   clear();
+  Item* current = head_;
+  while (current != NULL){
+    delete current;
+    current = current->next;
+  }
   //delete this;
 }
 
@@ -32,7 +38,7 @@ std::string* ULListStr::getValAtLoc(size_t loc) const{
   std::string* temp = NULL;
   if (loc > size_-1){
     // throw an exception
-    throw std::invalid_argument("Bad location");
+    throw std::invalid_argument("getValAtLoc: Bad location");
   }
   Item* current = head_;
   while (current != NULL){
@@ -80,7 +86,7 @@ void ULListStr::push_back(const std::string& val){
       item1->prev = NULL;
       item1->next = NULL;
       size_ = 1;
-      delete item1;
+      //delete item1;
     }
 
     else{
@@ -106,7 +112,7 @@ void ULListStr::push_back(const std::string& val){
         tail_->last = 1;
         tail_->next = NULL;
         size_ = size_ + 1;
-        delete item2;
+        //delete item2;
         //delete t_copy;
       }
       else{
@@ -130,7 +136,7 @@ void ULListStr::push_front(const std::string& val){
     item_1->prev = NULL;
     item_1->next = NULL;
     size_ = 1;
-    delete item_1;
+    //delete item_1;
   }
 
   else{
@@ -146,7 +152,7 @@ void ULListStr::push_front(const std::string& val){
       item3->next = h_copy;
       item3->val[10-1] = val;
       size_ = size_ + 1;
-      delete item3;
+      //delete item3;
     }
     else{
       head_->val[head_->first - 1] = val;
