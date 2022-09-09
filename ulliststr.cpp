@@ -57,8 +57,8 @@ std::string* ULListStr::getValAtLoc(size_t loc) const{
 }
 
 void ULListStr::push_back(const std::string& val){
-    // if empty, create item and push back
     if (tail_ == NULL){
+      // if empty, create item and push back
       Item* item1 = new Item();
       head_ = item1;
       tail_ = item1;
@@ -78,17 +78,15 @@ void ULListStr::push_back(const std::string& val){
         Item* t_copy = tail_; 
         t_copy->next = item2;
         tail_ = item2;
-      
-        tail_->prev = t_copy;
-        // woudl I have to do deep copy, 
+        tail_->prev = t_copy; 
         tail_->val[0] = val;
         tail_->first = 0;
         tail_->last = 1;
         tail_->next = NULL;
         size_ = size_ + 1;
       }
-      // push back with space
       else{
+        // push back with space
         tail_->val[tail_->last] = val;
         tail_->last = tail_->last+1;
         size_ = size_ + 1;
@@ -104,6 +102,7 @@ void ULListStr::push_front(const std::string& val){
     head_ = item23;
     tail_ = item23;
     std::string temp = val;
+    // do I need to redefine ARRSIZE in this file, thought it was global in .h imported file
     head_->val[10-1] = temp;
     head_->first = 10-1;
     head_->last = 10;
@@ -125,7 +124,6 @@ void ULListStr::push_front(const std::string& val){
       head_->prev = NULL;
       size_ = size_ + 1;
     }
-    // push front when space in front.
     else{
       head_->val[head_->first - 1] = val;
       head_->first = head_->first - 1;
@@ -135,19 +133,15 @@ void ULListStr::push_front(const std::string& val){
 }
 
 void ULListStr::pop_back(){
-  // throw exception if empty Item
   if((tail_ == NULL)){
     throw std::invalid_argument("Bad location");
   }
   else{
-    //if only one item in Item thats in tail delete that tail go to next one.
     if ( (tail_->last - tail_->first) == 1 ){
       Item* temp = tail_->prev;
-      //delete tail_;
       tail_ = temp;
     }
     else {
-      // if more than one val just pop back.
       if (tail_->last >= 1){
         tail_->last = tail_->last - 1;
       }
@@ -159,21 +153,17 @@ void ULListStr::pop_back(){
 }
 
 void ULListStr::pop_front(){
-  // throw exception for empty item
   if ( tail_ == NULL){
     throw std::invalid_argument("Bad location");
   }
   else {
-    // only one val in item in front delete it.
     if ( (head_->last - head_->first) == 1) {
       Item* temp_h = head_->next;
       delete head_;
       head_ = temp_h;
     }
     else {
-      // delete item from front.
       head_->first = head_->first + 1;
-      // how to deal with head->first going over
       if (size_ >= 1){
         size_ = size_ - 1;
       }
@@ -182,12 +172,10 @@ void ULListStr::pop_front(){
 }
 
 std::string const & ULListStr::back() const {
-  
   if(tail_== NULL){
     //throw exception
     throw std::invalid_argument("Bad location");
   }
-  // return back value.
   else{
     return (tail_->val[tail_->last-1]);
   }
@@ -198,7 +186,6 @@ std::string const & ULListStr::front() const {
     // throw exception
     throw std::invalid_argument("Bad location");
   }
-  // return back value.
   else{
     return (head_->val[head_->first]);
     
