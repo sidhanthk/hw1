@@ -36,10 +36,14 @@ size_t ULListStr::size() const
 
 std::string* ULListStr::getValAtLoc(size_t loc) const{
   std::string* temp = NULL;
+  // if inalid entry like a location number greater than number of possible values 
+  // throw exception.
   if (loc > size_-1){
     throw std::invalid_argument("getValAtLoc: Bad location");
   }
   Item* current = head_;
+  // getting location when head isn't null, if its in the node return
+  // otherwise go to next one and keep looking
   while (current != NULL){
     if ( (current->last - current->first) > loc){
       return &(current->val[current->first + loc]);
@@ -53,6 +57,7 @@ std::string* ULListStr::getValAtLoc(size_t loc) const{
 }
 
 void ULListStr::push_back(const std::string& val){
+    // if empty, create item and push back
     if (tail_ == NULL){
       Item* item1 = new Item();
       head_ = item1;
@@ -67,7 +72,7 @@ void ULListStr::push_back(const std::string& val){
     }
 
     else{
-      //!(tail_->val[tail_->last-1].empty())
+      //if Item full create new node and push back
       if ( tail_->last >= 10){
         Item* item2 = new Item();
         Item* t_copy = tail_; 
@@ -82,6 +87,7 @@ void ULListStr::push_back(const std::string& val){
         tail_->next = NULL;
         size_ = size_ + 1;
       }
+      // push back with space
       else{
         tail_->val[tail_->last] = val;
         tail_->last = tail_->last+1;
@@ -92,12 +98,12 @@ void ULListStr::push_back(const std::string& val){
 
 
 void ULListStr::push_front(const std::string& val){
+  // if empty create Item and push front
   if (head_ == NULL){
     Item* item23 = new Item();
     head_ = item23;
     tail_ = item23;
     std::string temp = val;
-    // do I need to redefine ARRSIZE in this file, thought it was global in .h imported file
     head_->val[10-1] = temp;
     head_->first = 10-1;
     head_->last = 10;
@@ -106,6 +112,7 @@ void ULListStr::push_front(const std::string& val){
     size_ = 1;
   }
   else{
+    // if item array full, make new Item push front value there
     if ( head_->first <= 0) {
       Item* item3 = new Item();
       Item* h_copy = head_;
@@ -118,6 +125,7 @@ void ULListStr::push_front(const std::string& val){
       head_->prev = NULL;
       size_ = size_ + 1;
     }
+    // push front when space in front.
     else{
       head_->val[head_->first - 1] = val;
       head_->first = head_->first - 1;
@@ -127,17 +135,19 @@ void ULListStr::push_front(const std::string& val){
 }
 
 void ULListStr::pop_back(){
+  // throw exception if empty Item
   if((tail_ == NULL)){
     throw std::invalid_argument("Bad location");
   }
   else{
+    //if only one item in Item thats in tail delete that tail go to next one.
     if ( (tail_->last - tail_->first) == 1 ){
       Item* temp = tail_->prev;
       //delete tail_;
       tail_ = temp;
     }
     else {
-    //tail_->val[tail_->last-1] = " ";
+      // if more than one val just pop back.
       if (tail_->last >= 1){
         tail_->last = tail_->last - 1;
       }
@@ -149,16 +159,19 @@ void ULListStr::pop_back(){
 }
 
 void ULListStr::pop_front(){
+  // throw exception for empty item
   if ( tail_ == NULL){
     throw std::invalid_argument("Bad location");
   }
   else {
+    // only one val in item in front delete it.
     if ( (head_->last - head_->first) == 1) {
       Item* temp_h = head_->next;
       delete head_;
       head_ = temp_h;
     }
     else {
+      // delete item from front.
       head_->first = head_->first + 1;
       // how to deal with head->first going over
       if (size_ >= 1){
@@ -169,25 +182,23 @@ void ULListStr::pop_front(){
 }
 
 std::string const & ULListStr::back() const {
-  // std::string* ptr;
-  // ptr = NULL;
-  // call delete on tail_ when calling pop_back edge case
+  
   if(tail_== NULL){
     //throw exception
     throw std::invalid_argument("Bad location");
   }
+  // return back value.
   else{
     return (tail_->val[tail_->last-1]);
   }
 }
 
 std::string const & ULListStr::front() const {
-  //std::string* ptr;
-  //ptr = NULL;
   if(head_==NULL){
     // throw exception
     throw std::invalid_argument("Bad location");
   }
+  // return back value.
   else{
     return (head_->val[head_->first]);
     
