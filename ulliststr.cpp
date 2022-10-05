@@ -140,12 +140,13 @@ void ULListStr::pop_back(){
     if ( (tail_->last - tail_->first) == 1 ){
       Item* temp = tail_->prev;
       tail_ = temp;
+      size_ = size_ - 1;
     }
     else {
       if (tail_->last >= 1){
         tail_->last = tail_->last - 1;
       }
-      if (size_ >= 1){
+      if (size_ >= 0){
         size_ = size_ - 1;
       }
     }
@@ -161,10 +162,13 @@ void ULListStr::pop_front(){
       Item* temp_h = head_->next;
       delete head_;
       head_ = temp_h;
+      size_ = size_ - 1;
     }
     else {
-      head_->first = head_->first + 1;
-      if (size_ >= 1){
+      if (head_->first < 9){
+        head_->first = head_->first + 1;
+      }
+      if (size_ >= 0){
         size_ = size_ - 1;
       }
     }
